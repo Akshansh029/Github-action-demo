@@ -19,6 +19,12 @@ jobs:
             - name: Execute cowsay command
               run: cowsay -f dragon "Dragon is a really scary creature..." > dragon.txt
 
+            - name: Upload the dragon.txt
+              uses: actions/upload-artifact@v4
+              with:
+                name: dragon-text-file
+                path: dragon.txt
+
             - name: Sleep for 5 secs
               run: sleep 5
 
@@ -27,6 +33,11 @@ jobs:
         needs: build_phase
         runs-on: ubuntu-latest
         steps:
+            - name: Donwload the dragon.txt
+              uses: actions/download-artifact@v4
+              with:
+                name: dragon-text-file
+
             - name: Check if file exists
               run: grep -i "dragon" dragon.txt
 
@@ -38,6 +49,11 @@ jobs:
         needs: [build_phase, test_phase]
         runs-on: ubuntu-latest 
         steps:
+            - name: Download the dragon.txt
+              uses: actions/download-artifact@v4
+              with:
+                name: dragon-text-file
+
             - name: Read file
               run: cat dragon.txt
 
