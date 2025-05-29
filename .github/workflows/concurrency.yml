@@ -1,0 +1,28 @@
+name: Job Concurrency
+on: workflow_dispatch
+jobs:
+  build_phase:
+    name: Building the code
+    runs-on: ubuntu-latest
+    steps:
+      - name: OS and repo info
+        run: |
+          echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Sleep for 5 secs
+        run: sleep 5
+
+  deploy_phase:
+    name: Deploying the code
+    needs: [build_phase]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Artifact deployment
+        run: echo "Deploying the artiacts of the Docker user- ${{ secrets.DOCKER_USERNAME }} whose password is ${{ secrets.DOCKER_PASSWORD}}"
+
+      - name: Sleep 100 secs
+        run: sleep 100
+
+      - name: Success message
+        run: echo "Deployment successful"
