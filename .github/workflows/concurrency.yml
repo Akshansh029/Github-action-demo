@@ -1,5 +1,8 @@
 name: Job Concurrency
 on: workflow_dispatch
+concurrency:
+  group: shared-deployment
+  cancel-in-progress: true
 jobs:
   build_phase:
     name: Building the code
