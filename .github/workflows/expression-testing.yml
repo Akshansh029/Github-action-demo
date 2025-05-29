@@ -1,4 +1,4 @@
-name: Workflow for multiple jobs
+name: Expressions
 on: push
 jobs:
   build_phase:
