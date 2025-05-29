@@ -1,0 +1,32 @@
+name: Expressions
+on: push
+jobs:
+  build_phase:
+    name: Building the code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Mention OS and repository
+        run: |
+          echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Building the artifact
+        run: echo "Building artifact..."
+
+      - name: Sleep for 10 secs
+        run: sleep 10
+
+  deploy_phase:
+    name: Deploying the code
+    if: github.ref == 'refs/heads/main'
+    needs: [build_phase]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying
+        run: echo "Deploying the artifact..."
+
+      - name: Success message
+        run: echo "Deployment successful"
