@@ -11,3 +11,23 @@ Here, I explore how to automate workflows, run tests, deploy applications, and m
 - Creating custom workflows for build/test/deploy
 - Exploring matrix builds and conditional logic
 - Using marketplace actions
+
+## Using demo app
+
+1. build the project
+
+```
+./gradlew build
+```
+
+2. build Docker image called java-app. Execute from root
+
+```
+docker build -t java-app .
+```
+
+3. push image to repo
+
+```
+docker tag java-app demo-app:java-1.0
+```
