@@ -1,61 +1,61 @@
 name: Workflow for multiple jobs
 on: push
 jobs:
-    build_phase:
-        name: Building the code
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-            
-            - name: Mention OS and repository
-              run: |
-                echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-                echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  build_phase:
+    name: Building the code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-            - name: Install cowsay library
-              run: sudo apt-get install cowsay -y
+      - name: Mention OS and repository
+        run: |
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-            - name: Execute cowsay command
-              run: cowsay -f dragon "Dragon is a really scary creature..." > dragon.txt
+      - name: Install cowsay library
+        run: sudo apt-get install cowsay -y
 
-            - name: Upload the dragon.txt
-              uses: actions/upload-artifact@v4
-              with:
-                name: dragon-text-file
-                path: dragon.txt
+      - name: Execute cowsay command
+        run: cowsay -f dragon "Dragon is a really scary creature..." > dragon.txt
 
-            - name: Sleep for 5 secs
-              run: sleep 5
+      - name: Upload the dragon.txt
+        uses: actions/upload-artifact@v4
+        with:
+          name: dragon-text-file
+          path: dragon.txt
 
-    test_phase:
-        name: Testing the code
-        needs: build_phase
-        runs-on: ubuntu-latest
-        steps:
-            - name: Donwload the dragon.txt
-              uses: actions/download-artifact@v4
-              with:
-                name: dragon-text-file
+      - name: Sleep for 5 secs
+        run: sleep 5
 
-            - name: Check if file exists
-              run: grep -i "dragon" dragon.txt
+  test_phase:
+    name: Testing the code
+    needs: build_phase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Donwload the dragon.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: dragon-text-file
 
-            - name: Sleep for 5 secs
-              run: sleep 5
+      - name: Check if file exists
+        run: grep -i "dragon" dragon.txt
 
-    deploy_phase:
-        name: Deploying the code
-        needs: [build_phase, test_phase]
-        runs-on: ubuntu-latest 
-        steps:
-            - name: Download the dragon.txt
-              uses: actions/download-artifact@v4
-              with:
-                name: dragon-text-file
+      - name: Sleep for 5 secs
+        run: sleep 5
 
-            - name: Read file
-              run: cat dragon.txt
+  deploy_phase:
+    name: Deploying the code
+    needs: [build_phase, test_phase]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the dragon.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: dragon-text-file
 
-            - name: Success message
-              run: echo "Deployment successful"
+      - name: Read file
+        run: cat dragon.txt
+
+      - name: Success message
+        run: echo "Deployment successful"

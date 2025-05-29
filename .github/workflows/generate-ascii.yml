@@ -1,26 +1,26 @@
 name: Generate ASCII Art
 on: [push]
 jobs:
-    ascii_job:
-        name: ASCII Job
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-            
-            - name: Mention OS and repository
-              run: |
-                echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-                echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  ascii_job:
+    name: ASCII Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-            - name: Install cowsay library
-              run: sudo apt-get install cowsay -y
+      - name: Mention OS and repository
+        run: |
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-            - name: Execute cowsay command
-              run: cowsay -f dragon "Dragon is a really scary creature..." >> dragon.txt
+      - name: Install cowsay library
+        run: sudo apt-get install cowsay -y
 
-            - name: Test file exists
-              run: grep -i "dragon" dragon.txt
+      - name: Execute cowsay command
+        run: cowsay -f dragon "Dragon is a really scary creature..." >> dragon.txt
 
-            - name: Read file
-              run: cat dragon.txt
+      - name: Test file exists
+        run: grep -i "dragon" dragon.txt
+
+      - name: Read file
+        run: cat dragon.txt
